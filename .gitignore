@@ -1,0 +1,12 @@
+data/
+*.wav
+*.flac
+*.zip
+checkpoints/
+runs/
+outputs/
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store

@@ -1,0 +1,12 @@
+# Deadline 2 (data stats) needs only `datasets` for the EdAcc option.
+datasets>=3.0
+soundfile
+# Used in later stages: fine-tuning, embeddings, clustering, evaluation.
+torch
+torchaudio
+transformers
+speechbrain
+scikit-learn
+jiwer
+pandas
+matplotlib
