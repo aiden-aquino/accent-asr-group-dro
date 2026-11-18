@@ -25,6 +25,7 @@ Last updated: 2026-11-18.
 
 ## Bibliography status
 - **Citations:** [annote.bib](annote.bib) (7 papers; van Zee 2024 optional 8th, commented out).
+  - Dataset papers are cited in the plan and README: **EdAcc** (Sanabria et al., 2023; ⚠ unverified, commented out in annote.bib) and **L2-ARCTIC** (Zhao et al., 2018). They aren't annotated-bibliography entries unless we choose to write summaries for them.
 - **Summaries:** written by us in Overleaf.
   - Drafted: Sagawa, Sohoni, Koenecke, Dheram.
   - To do: Veliche & Fung, Radford, Swain.
@@ -63,21 +64,34 @@ Last updated: 2026-11-18.
 
 ## Decisions
 - **Repo:** standalone public repo (separate from the CS445 coursework repo).
-- **Primary dataset:** L2-ARCTIC. **Backup:** EdAcc (streamed from Hugging Face; works now).
-- **Split:**
-  - per L1: 2 train speakers (1M/1F), 1 validation, 1 test, alternating sex so the test set is 3M/3F
-  - sentences split 80/10/10 by ID, so no test sentence is heard in training
+- **Primary dataset: EdAcc** (switched from L2-ARCTIC on 2026-11-18). **Backup: L2-ARCTIC** (controlled read-speech test of conditions 1 vs. 2).
+  - Why: L2-ARCTIC leaves only 12 training speakers to cluster (~2 per cluster at k = 6). EdAcc gives ~80–90 after holding out val/test, needs no request form, and matches Swain.
+  - EdAcc check (full stream of both HF splits, 2026-11-18):
+    - 122 speakers, 19,137 utterances; 59 M / 62 F / 1 other
+    - ~34 h estimated from word counts (published ~40 h)
+    - minutes per speaker (estimated): median 12.4, min 2.7, max 69.7; 118 speakers have ≥ 5 min
+    - no speaker appears in both HF splits (validation 9,848 rows, test 9,289)
+    - 41 L1 labels, 17 with ≥ 3 speakers; 32 accent labels, 17 with ≥ 3 speakers
+    - labels need cleanup: "Spanish" vs. "Spanish (Mexican)", typos ("Portoguese", "Ghanain"), a "Don't know" accent group
+  - Size: ~7 GB (validation 3.3 GB, test 3.6 GB).
+- **Split:** pool both HF splits, re-split by speaker (~70/15/15), stratified by group and balanced by sex where possible. Save the speaker lists as a small JSON in the repo so every machine uses the same split.
+- **True-label groups:** clean the labels and merge the long tail into broader groups; check Swain's 26-group scheme first. *(Not decided yet.)*
 - **Model:** Whisper-base (74M).
-- **Clustering:** ECAPA-TDNN embeddings + k-means (k = 6, plus a sweep); optional UMAP + silhouette-chosen k.
+- **Clustering:** ECAPA-TDNN embeddings averaged per speaker + k-means (k = number of true groups, plus a sweep); optional UMAP + silhouette-chosen k.
+- **Compute:** train on the MSI GL66 (RTX 3070 laptop, 8 GB VRAM); Colab T4 as backup or a second machine. This laptop has no CUDA GPU, so it only streams data, runs stats and does quick CPU tests.
 - **Conditions:**
   1. ERM
   2. Group DRO + true L1
   3. Group DRO + clusters
   4. Group DRO + random groups
-- **Evaluation:** per-L1 WER on held-out speakers and sentences; 3 seeds.
+- **Evaluation:** per-group WER on held-out speakers; 3 seeds; bootstrap CIs (many groups have only 1–2 test speakers).
 
 ## Open to-dos
-- [ ] Submit the L2-ARCTIC request form (https://psi.engr.tamu.edu/l2-arctic-corpus/)
+- [ ] Verify the EdAcc citation (Sanabria et al., ICASSP 2023): authors, pages, DOI. It's commented out in annote.bib until then
+- [ ] Decide the true-label grouping for EdAcc (check Swain's grouping)
+- [ ] Set up the GL66 (see Environment notes)
+- [ ] Submit the L2-ARCTIC request form anyway, as the backup (https://psi.engr.tamu.edu/l2-arctic-corpus/)
+- [ ] Mirror the EdAcc switch (Data, Evaluation, Compute, Fallback) in the Overleaf version of the plan
 - [ ] Fill in names (README, project plan)
 - [ ] Add partner as a GitHub collaborator
 - [ ] Finish the Veliche & Fung, Radford, Swain summaries
@@ -86,3 +100,12 @@ Last updated: 2026-11-18.
 ## Environment notes
 - Local Python: conda env `env445` (`C:\Users\aaqui\miniconda3\envs\env445\python.exe`).
 - Installing `datasets` upgraded `huggingface-hub` to 2.x, which broke `transformers` 5.x. Fixed by pinning `huggingface-hub<2.0` (now in requirements.txt).
+- This laptop: Intel UHD graphics only, CPU-only PyTorch (`2.12.0+cpu`), ~9 GB free disk. Stream EdAcc here; don't download it.
+- **GL66 setup checklist** (training machine):
+  1. `nvidia-smi` to confirm the RTX 3070 and driver; check ≥ 20 GB free disk
+  2. Miniconda, `conda create -n env445 python=3.11`
+  3. CUDA build of PyTorch (exact command from pytorch.org), then `pip install -r requirements.txt` (keeps `huggingface-hub<2.0`)
+  4. Confirm `python -c "import torch; print(torch.cuda.get_device_name(0))"`
+  5. If the SSD is short on space, put the HF cache on the external hard drive: `setx HF_HOME "E:\hf_cache"`, then open a new terminal (not the thumb drive)
+  6. Download EdAcc (non-streaming) and do a short ERM test run to check speed and temperature
+- Colab: browser only, nothing to install. Its disk resets each session, so re-download EdAcc and save checkpoints to Google Drive.

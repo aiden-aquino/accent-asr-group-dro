@@ -88,6 +88,8 @@ The groupings are used **only during training**. Every model is **tested the sam
 
 ## 5. Data
 
+> **Update 2026-11-18: EdAcc is now the primary dataset and L2-ARCTIC is the backup.** EdAcc has 122 speakers, compared with L2-ARCTIC's 12 training speakers, which is too few to cluster. See the Data section of [project_plan.md](project_plan.md) and the Decisions in [project_context.md](project_context.md). The L2-ARCTIC notes below still apply to the backup.
+
 **L2-ARCTIC** (Zhao et al., 2018) contains:
 - 24 non-native English speakers, 4 for each first language: Hindi, Mandarin, Korean, Spanish, Arabic and Vietnamese
 - each speaker reading about an hour of the same CMU ARCTIC sentences
@@ -120,13 +122,13 @@ We didn't find any paper combining all four (searched 2026-10-28), but we can't 
 
 ## 7. Compute and risks
 
-**Compute:** embeddings and clustering take minutes. Each Whisper fine-tuning run (base or small) should take under an hour on a Colab T4. 4 conditions × 3 seeds is manageable.
+**Compute:** embeddings and clustering take minutes. Each Whisper fine-tuning run (base or small) should take under an hour on a Colab T4 or the GL66's RTX 3070 (now the main training machine). 4 conditions × 3 seeds is manageable.
 
 **Risks and fallback:**
 - Clusters may capture gender instead of accent. Still a reportable finding, explained in Step 2.
 - Group DRO may not help even with true labels (condition 2 ≈ 1). Still an honest result; check regularization first.
-- **Fallback:** if clustering goes badly, conditions 1 and 2 alone answer "does Group DRO improve accent fairness for small Whisper on L2-ARCTIC?", which is a complete project.
-- L2-ARCTIC access is delayed: switch to EdAcc.
+- **Fallback:** if clustering goes badly, conditions 1 and 2 alone answer "does Group DRO improve accent fairness for small Whisper on EdAcc?", which is a complete project.
+- EdAcc labels or WER too noisy: run conditions 1 and 2 on L2-ARCTIC as a controlled read-speech test.
 
 ## 8. References (APA)
 

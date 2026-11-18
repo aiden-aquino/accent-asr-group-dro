@@ -7,7 +7,7 @@ Speech-to-text systems make more mistakes for some speakers than others, includi
 
 **Our question:** can Group DRO make OpenAI's Whisper fairer across accents using k-means clusters of speaker embeddings instead of accent labels, and how close does that get to using the true labels?
 
-We fine-tune Whisper-base on [L2-ARCTIC](https://psi.engr.tamu.edu/l2-arctic-corpus/) (24 speakers, 6 first languages) four ways:
+We fine-tune Whisper-base on [EdAcc](https://huggingface.co/datasets/edinburghcstr/edacc) (122 speakers, 40+ first languages, conversational English) four ways:
 
 | # | Training | Role |
 |---|---|---|
@@ -16,7 +16,7 @@ We fine-tune Whisper-base on [L2-ARCTIC](https://psi.engr.tamu.edu/l2-arctic-cor
 | 3 | Group DRO + discovered speaker clusters | **main experiment** |
 | 4 | Group DRO + random groups | sanity check |
 
-Every model is evaluated the same way: word error rate per *true* first language, on held-out speakers and held-out sentences.
+Every model is evaluated the same way: word error rate per *true* accent group, on held-out speakers.
 
 Project documents:
 - [docs/project_plan.md](docs/project_plan.md): the full project plan
@@ -35,15 +35,15 @@ pip install -r requirements.txt
 
 ## Data
 
-**L2-ARCTIC (main dataset).** Free under CC BY-NC 4.0 but requires a request form: fill it in at https://psi.engr.tamu.edu/l2-arctic-corpus/ and a download link is emailed to you. Unzip it so the folder looks like:
+**EdAcc (main dataset).** On Hugging Face (`edinburghcstr/edacc`), about 7 GB. `data_stats.py` streams it, so nothing is stored locally. For training, download it on the GPU machine (non-streaming `load_dataset`); set `HF_HOME` to put the cache on another drive.
+
+**L2-ARCTIC (backup dataset).** Free under CC BY-NC 4.0 but requires a request form: fill it in at https://psi.engr.tamu.edu/l2-arctic-corpus/ and a download link is emailed to you. Unzip it so the folder looks like:
 
 ```
 data/l2arctic/ABA/wav/arctic_a0001.wav
 data/l2arctic/ABA/transcript/arctic_a0001.txt
 ...
 ```
-
-**EdAcc (backup dataset).** Streamed automatically from Hugging Face (`edinburghcstr/edacc`); no download step is needed.
 
 ## Running
 
@@ -76,4 +76,5 @@ We used Claude Code (Anthropic) as a coding and research assistant. It helped dr
 - Swain, M., et al. (2026). Towards fair ASR for second language speakers using fairness prompted finetuning. *ICASSP 2026*.
 - Veliche, I.-E., & Fung, P. (2023). Improving fairness and robustness in end-to-end speech recognition through unsupervised clustering. *ICASSP 2023*.
 - Radford, A., et al. (2023). Robust speech recognition via large-scale weak supervision. *ICML 2023*.
+- Sanabria, R., et al. (2023). The Edinburgh International Accents of English Corpus: Towards the democratization of English ASR. *ICASSP 2023*.
 - Zhao, G., et al. (2018). L2-ARCTIC: A non-native English speech corpus. *Interspeech 2018*.
