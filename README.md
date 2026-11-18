@@ -18,7 +18,12 @@ We fine-tune Whisper-base on [L2-ARCTIC](https://psi.engr.tamu.edu/l2-arctic-cor
 
 Every model is evaluated the same way: word error rate per *true* first language, on held-out speakers and held-out sentences.
 
-See [docs/project_plan.md](docs/project_plan.md) for the full plan and [docs/proposal.md](docs/proposal.md) for the proposal.
+Project documents:
+- [docs/project_plan.md](docs/project_plan.md): the full project plan
+- [docs/proposal.md](docs/proposal.md): the topic proposal
+- [docs/project_context.md](docs/project_context.md): deadlines, decisions, status, and key takeaways
+- [docs/annote.bib](docs/annote.bib): bibliography citations (our annotations are written in Overleaf)
+- [docs/bibliography_notes.md](docs/bibliography_notes.md): AI-generated study notes on the papers, used for understanding only, not our annotations
 
 ## Setup
 
@@ -55,13 +60,14 @@ Later stages (embedding extraction, clustering, fine-tuning and evaluation) will
 
 ```
 src/data_stats.py      dataset loading + summary statistics
-docs/                  proposal, project plan, bibliography notes
+docs/                  proposal, plan, context log, citations, study notes
 requirements.txt
+CLAUDE.md              instructions for AI coding assistants
 ```
 
 ## How we used AI tools
 
-We used Claude Code (Anthropic) as a coding and research assistant. It helped draft the data-loading script, the README and an early version of the project plan, and it helped us look up and cross-check paper references. We reviewed and edited everything it produced, ran the code ourselves, and made all decisions about the experimental design. Per course policy, the annotated-bibliography summaries are written entirely by us. *(Update this section as the project goes on.)*
+We used Claude Code (Anthropic) as a coding and research assistant. It helped draft the data-loading script, the README and an early version of the project plan, and it helped us look up and cross-check paper references. It also produced study notes that helped us understand the papers ([docs/bibliography_notes.md](docs/bibliography_notes.md)). We reviewed and edited everything it produced, ran the code ourselves, and made all decisions about the experimental design. Per course policy, the annotated-bibliography summaries are written entirely by us. *(Update this section as the project goes on.)*
 
 ## References
 

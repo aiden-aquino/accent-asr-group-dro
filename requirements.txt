@@ -1,6 +1,7 @@
 # Deadline 2 (data stats) needs only `datasets` for the EdAcc option.
 datasets>=3.0
 soundfile
+huggingface-hub<2.0   # 2.x breaks transformers 5.x
 # Used in later stages: fine-tuning, embeddings, clustering, evaluation.
 torch
 torchaudio
