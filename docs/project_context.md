@@ -15,6 +15,7 @@ Last updated: 2026-11-19.
 | 12/17 | Poster session (36"×24" landscape, QR code to this repo) |
 
 ## Assignment rules worth remembering
+- Assignment page: https://w3.cs.jmu.edu/spragunr/CS445_F26/hw/poster.shtml (local PDF copy in docs/, not committed)
 - **Annotated bibliography:**
   - ≥ 5 peer-reviewed papers
   - ≥ 3 that cite another paper in the list
