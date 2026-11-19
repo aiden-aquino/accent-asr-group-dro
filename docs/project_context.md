@@ -1,7 +1,7 @@
 # Project Context Log
 
 A running record of decisions, status, and key takeaways for the team (and for AI assistants helping us).
-Last updated: 2026-11-18.
+Last updated: 2026-11-19.
 
 ## Deadlines (from the CS 445 course schedule)
 | Date | Deadline |
@@ -9,7 +9,9 @@ Last updated: 2026-11-18.
 | 10/29 | Topic proposal + preliminary bibliography ✅ |
 | **11/19** | **Annotated bibliography + project plan + GitHub repo** |
 | 12/03 | Project checkpoint (≤ 2-page progress report with figures) |
+| *12/07* | *Internal: all 4 conditions × 3 seeds finished* |
 | 12/10 | Poster draft (in-class peer review) |
+| *12/13–14* | *Internal: final figures, error examples, peer-review fixes; poster sent to print* |
 | 12/17 | Poster session (36"×24" landscape, QR code to this repo) |
 
 ## Assignment rules worth remembering
@@ -25,7 +27,8 @@ Last updated: 2026-11-18.
 
 ## Bibliography status
 - **Citations:** [annote.bib](annote.bib) (7 papers; van Zee 2024 optional 8th, commented out).
-  - Dataset papers are cited in the plan and README: **EdAcc** (Sanabria et al., 2023; ⚠ unverified, commented out in annote.bib) and **L2-ARCTIC** (Zhao et al., 2018). They aren't annotated-bibliography entries unless we choose to write summaries for them.
+  - Dataset papers are cited in the plan and README only, **not** in the annotated bib: **EdAcc** (Sanabria et al., 2023; ⚠ details unverified) and **L2-ARCTIC** (Zhao et al., 2018). Keep Sanabria23 out of the Overleaf bib, or `\nocite{*}` prints it as an unannotated entry.
+- **Submission format:** one Overleaf `main.tex` with the project plan first, then `\newpage` and the annotated bibliography (heading renamed with `\renewcommand{\refname}{Annotated Bibliography}`), `geometry` with 1in margins. [project_plan.md](project_plan.md) is a markdown copy of the submitted plan.
 - **Summaries:** written by us in Overleaf.
   - Drafted: Sagawa, Sohoni, Koenecke, Dheram.
   - To do: Veliche & Fung, Radford, Swain.
@@ -85,14 +88,16 @@ Last updated: 2026-11-18.
   3. Group DRO + clusters
   4. Group DRO + random groups
 - **Evaluation:** per-group WER on held-out speakers; 3 seeds; bootstrap CIs (many groups have only 1–2 test speakers).
+  - Headline number: the % of the ERM → true-label improvement in worst-group WER that the clusters recover (0% = no better than ERM, 100% = matches true labels). Meaningless if condition 2 doesn't beat ERM; then compare conditions 3 and 4 with ERM directly.
 
 ## Open to-dos
-- [ ] Verify the EdAcc citation (Sanabria et al., ICASSP 2023): authors, pages, DOI. It's commented out in annote.bib until then
-- [ ] Decide the true-label grouping for EdAcc (check Swain's grouping)
+- [ ] Verify the EdAcc citation details (Sanabria et al., ICASSP 2023: authors, pages, DOI) for the plan/poster
+- [ ] Decide the true-label grouping for EdAcc (check Swain's grouping); save the label → group mapping in the repo
 - [ ] Set up the GL66 (see Environment notes)
 - [ ] Submit the L2-ARCTIC request form anyway, as the backup (https://psi.engr.tamu.edu/l2-arctic-corpus/)
-- [ ] Mirror the EdAcc switch (Data, Evaluation, Compute, Fallback) in the Overleaf version of the plan
-- [ ] Fill in names (README, project plan)
+- [ ] Check what format the poster draft should be (printed, on a laptop, or PDF) and JMU's print turnaround
+- [x] Mirror the EdAcc switch in the Overleaf version of the plan
+- [x] Fill in names (README, project plan)
 - [ ] Add partner as a GitHub collaborator
 - [ ] Finish the Veliche & Fung, Radford, Swain summaries
 - [ ] Decide on van Zee as an 8th paper

@@ -1,7 +1,7 @@
 # Fair Speech Recognition Without Accent Labels
 
 CS 445: Machine Learning poster project, James Madison University, Fall 2026
-**Team:** [Your Name], [Partner Name]
+**Team:** Aiden Aquino, Josh Fuentes
 
 Speech-to-text systems make more mistakes for some speakers than others, including non-native English speakers. **Group DRO** (Sagawa et al., 2020) trains a model to focus on whichever group it currently serves worst, but it needs every speaker's group label, and accent labels are often unavailable for privacy reasons. In computer vision, Sohoni et al. (2020) replaced true labels with *automatically discovered* clusters.
 
